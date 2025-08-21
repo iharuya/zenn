@@ -37,7 +37,7 @@ Next.jsがReact Compilerを統合するために採用しているアプロー�
 
 Next.jsは、Rustで書かれたSWCのカスタムトランスフォームを使用して、1つのファイルがReact Compilerの対象となるべきかを判定します。
 
-[https://github.com/vercel/next.js/blob/4b567eb0bfec14e51ca74fdfa2b44dd60a87047b/crates/next-custom-transforms/src/react_compiler.rs#L29](https://github.com/vercel/next.js/blob/4b567eb0bfec14e51ca74fdfa2b44dd60a87047b/crates/next-custom-transforms/src/react_compiler.rs#L29)
+https://github.com/vercel/next.js/blob/4b567eb0bfec14e51ca74fdfa2b44dd60a87047b/crates/next-custom-transforms/src/react_compiler.rs#L24
 
 このRustコードでは、SWCがパースしたASTを`Finder`という`Visit`トレイトを実装した構造体で走査し、以下のような特徴を持つ関数やコンポーネントを探します。
 
@@ -51,7 +51,7 @@ Next.jsは、Rustで書かれたSWCのカスタムトランスフォームを使
 
 Rustで実装された判定ロジックをTSで叩くバインディング：
 
-[https://github.com/vercel/next.js/blob/4b567eb0bfec14e51ca74fdfa2b44dd60a87047b/packages/next/src/build/swc/index.ts#L1554-L1559](https://github.com/vercel/next.js/blob/4b567eb0bfec14e51ca74fdfa2b44dd60a87047b/packages/next/src/build/swc/index.ts#L1554-L1559)
+https://github.com/vercel/next.js/blob/4b567eb0bfec14e51ca74fdfa2b44dd60a87047b/packages/next/src/build/swc/index.ts#L1554-L1559
 
 このコードは、Rustで計算された`is_required`の結果（`boolean`値）を、TypeScriptのランタイムに返します。このとき、RustからTypeScriptに渡されるデータは`true`か`false`という**極めて小さな情報**である点が重要です。プロセスを跨いでAST全体を渡すような高コストな処理は発生しません。
 
@@ -59,7 +59,7 @@ Rustで実装された判定ロジックをTSで叩くバインディング：
 
 Babelローダーの設定を動的に生成する部分：
 
-[https://github.com/vercel/next.js/blob/0ed99f10c97e9cca47aad6d31023c9604a11c320/packages/next/src/build/babel/loader/get-config.ts#L369-L374](https://github.com/vercel/next.js/blob/0ed99f10c97e9cca47aad6d31023c9604a11c320/packages/next/src/build/babel/loader/get-config.ts#L369-L374)
+https://github.com/vercel/next.js/blob/0ed99f10c97e9cca47aad6d31023c9604a11c320/packages/next/src/build/babel/loader/get-config.ts#L369-L374
 
 ここで、SWCから渡された判定結果が`true`の場合、React CompilerのBabelプラグインが設定に追加されます。
 
