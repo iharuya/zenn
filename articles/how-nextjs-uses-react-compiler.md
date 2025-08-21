@@ -3,7 +3,7 @@ title: "Next.js はどうやって React Compiler を実行するか"
 emoji: "🤝"
 type: "tech"
 topics: ["zenn"]
-published: false
+published: true
 ---
 
 ## はじめに：React Compilerの登場と、Next.jsにおける疑問
@@ -39,25 +39,22 @@ Next.jsは、Rustで書かれたSWCのカスタムトランスフォームを使
 
 https://github.com/vercel/next.js/blob/4b567eb0bfec14e51ca74fdfa2b44dd60a87047b/crates/next-custom-transforms/src/react_compiler.rs#L24
 
-このRustコードでは、SWCがパースしたASTを`Finder`という`Visit`トレイトを実装した構造体で走査し、以下のような特徴を持つ関数やコンポーネントを探します。
+このRustコードでは、SWCがパースしたASTを使い、以下のような特徴を持つ関数やコンポーネントを探します。
 
 -   **大文字で始まる関数名**: 通常のReactコンポーネントの命名規則（例: `function MyComponent() {...}`）
--   **"use"で始まる関数名**: React Hooksの命名規則（例: `function useState() {...}`）
--   **`export default`された関数**: デフォルトエクスポートされた関数コンポーネントなど
--   **これらの関数内でJSX要素が使われているか**: JSXが含まれているかどうかは、それがUIコンポーネントである可能性が高いことを示します。
+-   **"use"で始まる関数名**: React Hooksっぽいもの
+-   `export default`された関数
+-   これらの関数内でJSX要素が使われているか
 
 この判定ロジックは、**偽陰性（本当はコンパイラを適用すべきなのに誤って不要と判断してしまう）が低くなるように判定する**ことを重視していることを感じます。
-
 
 Rustで実装された判定ロジックをTSで叩くバインディング：
 
 https://github.com/vercel/next.js/blob/4b567eb0bfec14e51ca74fdfa2b44dd60a87047b/packages/next/src/build/swc/index.ts#L1554-L1559
 
-このコードは、Rustで計算された`is_required`の結果（`boolean`値）を、TypeScriptのランタイムに返します。このとき、RustからTypeScriptに渡されるデータは`true`か`false`という**極めて小さな情報**である点が重要です。プロセスを跨いでAST全体を渡すような高コストな処理は発生しません。
+このとき、RustからTypeScriptに渡されるデータは`true`か`false`という**極めて小さな情報**である点が重要です。プロセスを跨いでAST全体を渡すような高コストな処理は発生しません。
 
-最終的に、この判定結果を受け取ってBabelプラグインを適用するかどうかを決定するのが、Babelローダーの設定部分です。
-
-Babelローダーの設定を動的に生成する部分：
+この判定結果を受け取ってBabelローダーの設定を動的に生成しています：
 
 https://github.com/vercel/next.js/blob/0ed99f10c97e9cca47aad6d31023c9604a11c320/packages/next/src/build/babel/loader/get-config.ts#L369-L374
 
