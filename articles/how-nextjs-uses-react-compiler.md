@@ -2,7 +2,7 @@
 title: "Next.js はどうやって React Compiler を実行するか"
 emoji: "🤝"
 type: "tech"
-topics: ["zenn"]
+topics: ["next.js","react","frontend","rust"]
 published: true
 ---
 
