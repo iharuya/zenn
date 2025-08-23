@@ -1,5 +1,5 @@
 ---
-title: "Next.js はどうやって React Compiler を実行するか"
+title: "Next.js はどうやって React Compiler を実行しているのか"
 emoji: "🤝"
 type: "tech"
 topics: ["next.js","react","frontend","rust"]
@@ -10,7 +10,11 @@ published: true
 
 2025/04/21、Reactチームは待望の[React Compilerの安定版リリース候補](https://react.dev/blog/2025/04/21/react-compiler-rc)を発表しました。このCompilerは、Reactコンポーネントが不要な再レンダリングを自動的にスキップできるようにコードを最適化し、開発者が手動で`useMemo`や`useCallback`といった最適化フックを記述する負担を減らすことを目指しています。
 
-ただ、React CompilerがBabelプラグインとしてしか提供されていない点が気になります。近年、Next.jsは高速なRustベースのコンパイラである[SWC](https://swc.rs/)を積極的に導入し、Babelへの依存を減らしてきました。それによってビルド速度が劇的に向上したことを体感している方も多いでしょう。
+Next.jsでは、[v15からReact Compilerを実験的にサポート](https://nextjs.org/blog/next-15-rc#react-compiler-experimental)するようになりました。
+
+ただ、React Compilerが記事執筆時点でBabelプラグインとしてしか提供されていない点が気になります。
+
+近年、Next.jsは高速なRustベースのコンパイラである[SWC](https://swc.rs/)を積極的に導入し、Babelへの依存を減らしてきました。それによってビルド速度が劇的に向上したことを体感している方も多いでしょう。
 
 SWCが主流となっているNext.jsにおいて、BabelプラグインであるReact Compilerはどのように統合されているのでしょうか？
 
@@ -37,7 +41,7 @@ Next.jsがReact Compilerを統合するために採用しているアプロー�
 
 Next.jsは、Rustで書かれたSWCのカスタムトランスフォームを使用して、1つのファイルがReact Compilerの対象となるべきかを判定します。
 
-https://github.com/vercel/next.js/blob/4b567eb0bfec14e51ca74fdfa2b44dd60a87047b/crates/next-custom-transforms/src/react_compiler.rs#L24
+https://github.com/vercel/next.js/blob/4b567eb0bfec14e51ca74fdfa2b44dd60a87047b/crates/next-custom-transforms/src/react_compiler.rs#L16-L127
 
 このRustコードでは、SWCがパースしたASTを使い、以下のような特徴を持つ関数やコンポーネントを探します。
 
@@ -60,15 +64,19 @@ https://github.com/vercel/next.js/blob/0ed99f10c97e9cca47aad6d31023c9604a11c320/
 
 ここで、SWCから渡された判定結果が`true`の場合、React CompilerのBabelプラグインが設定に追加されます。
 
-また、この部分で言及されている`standalone`モードとは、Next.jsが提供するデフォルトのビルドプロセスでSWCローダーがメインで使用される場合を指します。もしアプリケーション開発者が独自に`.babelrc`などのBabel設定ファイルを設置している場合、Next.jsは開発者の設定を優先するため、React Compilerプラグインはご自身で設定いただく必要があります。
+また、この部分で前提条件とされている`standalone`モードとは、Next.jsが提供するデフォルトのビルドプロセスでSWCローダーがメインで使用される場合を指します。もしアプリケーション開発者が独自に`.babelrc`などのBabel設定ファイルを設置している場合、Next.jsは開発者の設定を優先するため、React Compilerプラグインはご自身で設定いただく必要があります。
 
-## おわり
+## おわりに
 
-React Compilerを適用する対象として、`node_modules`を除外するだけではちょっと物足りなかったようです。
+React Compilerを適用する対象として、`node_modules`を除外するのは当然ですが、それに加え、上記のような高度な判定を行っていることが分かりました。
 
-結果的にBabel/SWCが協調してる珍妙なコードになっていますが、swcネイティブのReact Compilerが出るまでの幻かもしれません。
+今回読んできたコードのほとんどは、このPRで追加されたものです：https://github.com/vercel/next.js/pull/75605
 
-ちなみにこの変更はさりげなく行われています：https://github.com/vercel/next.js/pull/75605
+この変更は、特に大規模なプロジェクトにおいてビルド時間を最適化するための工夫と言えます。
+
+Babel/SWCが協調しているこの珍妙なコードは、SWCネイティブのReact Compilerがリリースされるまでの一時的な解決策でしょう。
+
+SWC版がリリースされる時期について公式の発表はありませんが、おそらく今後はBabelプラグインの一般提供（GA）-> 広範な採用とフィードバック -> 仕様の確立 -> ネイティブSWCプラグインの本格開発、といった段階を踏むのではないかと予想しています。
 
 本記事では、Next.jsがReact Compilerをどのように実行しているかについて、その内部実装をソースコードレベルで紐解きました。
 
