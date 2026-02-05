@@ -26,7 +26,7 @@ import * as z from "zod";
 
 # 検証：インポート方法でバンドルサイズはどれだけ変わるのか
 
-実際に検証してみました。
+実際に検証してみました
 
 **検証環境**
 - Zod v4.3.6
@@ -179,3 +179,15 @@ APIが通常のZodと異なるため、既存コードの書き換えが必要�
 - 極限まで軽量化したいなら `zod/mini` も選択肢
 
 Zod v3からv4に移行したプロジェクトは、ぜひインポート文を確認してみてください。
+
+---
+
+# References
+
+**検証コード**
+
+https://github.com/iharuya/zenn/tree/b997ff4006b41e277024a0b3fedb11d7237def37/sandbox/no-zod-named-import
+
+**Zod v4 release notes**
+
+https://zod.dev/v4
