@@ -92,7 +92,7 @@ z.string().optional().nullable().default("hello")
 
 一方、`import * as z from "zod"` の名前空間インポートでは、バンドラーが各エクスポートの使用状況を個別に追跡できるため、`z.string` や `z.object` といった個別のトップレベルエクスポートへのアクセスとして解決され、ツリーシェイキングが正しく機能します。
 
-Zod公式も名前空間インポートを推奨しており、これを強制するESLintプラグイン（[eslint-plugin-import-zod](https://github.com/samchungy/eslint-plugin-import-zod)）も存在するほどです。私はBiomeが好きなので、カスタムプラグインで同等のことを行う方法を後述します。
+Zod公式も名前空間インポートを推奨しており、これを強制するESLintプラグイン（[eslint-plugin-import-zod](https://github.com/samchungy/eslint-plugin-import-zod)）も存在するほどです。僕はBiomeが好きなので、カスタムプラグインで同等のことを行う方法を後述します。
 
 # やるべきこと
 
@@ -149,7 +149,7 @@ const userSchema = object({
 
 ![Biomeが警告してくれているのをVSCodeで確認するデモ](/images/no-zod-named-import/biome-warning.png)
 
-Biomeのカスタムプラグインは現時点では自動修正（`--fix`）に対応していませんが、エラーメッセージが明確なので[Hooks (kazuph氏の記事を参考までに)](https://zenn.dev/kazuph/articles/483d6cf5f3798c)とかでBiomeチェックを頻繁に実行させていればAIが気づいて修正してくれるでしょう。実際に著者はこれで非常に助かっています。
+Biomeのカスタムプラグインは現時点では自動修正（`--write`）に対応していませんが、エラーメッセージが明確なので[Hooks (kazuph氏の記事を参考までに)](https://zenn.dev/kazuph/articles/483d6cf5f3798c)とかでBiomeチェックを頻繁に実行させていればAIが気づいて修正してくれるでしょう。実際に僕はこれで非常に助かっています。
 
 ## Step3（Optional）：さらに軽量化するなら zod/mini
 
