@@ -149,7 +149,7 @@ const userSchema = object({
 
 ![Biomeが警告してくれているのをVSCodeで確認するデモ](/images/no-zod-named-import/biome-warning.png)
 
-Biomeのカスタムプラグインは現時点では自動修正（`--write`）に対応していませんが、エラーメッセージが明確なので[Hooks (kazuph氏の記事を参考までに)](https://zenn.dev/kazuph/articles/483d6cf5f3798c)とかでBiomeチェックを頻繁に実行させていればAIが気づいて修正してくれるでしょう。実際に僕はこれで非常に助かっています。
+[Biomeのカスタムプラグイン](https://biomejs.dev/ja/linter/plugins/)は現時点では自動修正（`--write`）に対応していませんが、エラーメッセージが明確なので[Hooks (kazuph氏の記事を参考までに)](https://zenn.dev/kazuph/articles/483d6cf5f3798c)とかでBiomeチェックを頻繁に実行させていればAIが気づいて修正してくれるでしょう。実際に僕はこれで非常に助かっています。
 
 ## Step3（Optional）：さらに軽量化するなら zod/mini
 
