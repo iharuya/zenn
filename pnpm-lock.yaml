@@ -9,16 +9,16 @@ importers:
   .:
     dependencies:
       zenn-cli:
-        specifier: ^0.1.147
-        version: 0.1.159
+        specifier: ^0.1.162
+        version: 0.1.162
 
 packages:
 
-  zenn-cli@0.1.159:
-    resolution: {integrity: sha512-a4/Lkg3DnxWlYh2Z0abuvvmpQc0BnfTQrVyNQxYm+IOrwGJepZabwWTT0Q3eZ3r7hAV/xd8MZsmZL3y3pzMpAA==}
+  zenn-cli@0.1.162:
+    resolution: {integrity: sha512-tSa/hseSrvQ+JwrpHgwJkfl3Z+pWE/y3ujW4OnP5aFFgnU7QZYaS+6dZJTRkEcwf9t2alViUACMjQevMaiYTqg==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
 snapshots:
 
-  zenn-cli@0.1.159: {}
+  zenn-cli@0.1.162: {}
