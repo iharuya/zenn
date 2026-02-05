@@ -3,7 +3,7 @@ title: "Zod v4、インポート方法で300KB→66KBに。あなたのコード
 emoji: "😈"
 type: "tech"
 topics: ["zod", "biome"]
-published: false
+published: true
 ---
 
 # あなたのZod、全部入りになっていませんか？
