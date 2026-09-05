@@ -1,15 +1,13 @@
 {
   "name": "zenn",
-  "version": "1.0.0",
   "description": "",
   "scripts": {
     "preview": "zenn preview --port 2854"
   },
   "keywords": [],
-  "author": "",
+  "author": "iharuya",
   "license": "ISC",
   "dependencies": {
-    "zenn-cli": "^0.1.162"
-  },
-  "packageManager": "pnpm@10.33.0"
+    "zenn-cli": "^0.5.3"
+  }
 }
